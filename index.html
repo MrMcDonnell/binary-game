@@ -5,12 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Byte Blaster: Binary vs Denary</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
 
     body {
       min-height: 100vh;
@@ -30,32 +25,22 @@
       gap: 22px;
     }
 
-    .main-card,
-    .side-card {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+    .main-card, .side-card {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
       border-radius: 28px;
-      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 25px 70px rgba(0,0,0,0.35);
       backdrop-filter: blur(18px);
       padding: 28px;
     }
 
-    .title-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
+    .title-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
 
     .robot {
-      width: 68px;
-      height: 68px;
-      border-radius: 22px;
+      width: 68px; height: 68px; border-radius: 22px;
       background: linear-gradient(145deg, #00e5ff, #7c3cff);
-      display: grid;
-      place-items: center;
-      font-size: 35px;
-      box-shadow: 0 0 32px rgba(0, 229, 255, 0.45);
+      display: grid; place-items: center; font-size: 35px;
+      box-shadow: 0 0 32px rgba(0,229,255,0.45);
       animation: float 2.5s ease-in-out infinite;
     }
 
@@ -64,532 +49,475 @@
       50% { transform: translateY(-7px); }
     }
 
-    h1 {
-      font-size: clamp(2rem, 5vw, 4rem);
-      line-height: 0.95;
-      letter-spacing: -2px;
+    h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 0.95; letter-spacing: -2px; }
+    .subtitle { color: #c9d7ff; font-size: 1rem; margin-top: 8px; }
+
+    .mode-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0; }
+
+    .mode-btn, button {
+      border: none; border-radius: 18px; padding: 14px 16px;
+      background: rgba(255,255,255,0.14); color: white;
+      cursor: pointer; font-weight: 700; transition: 0.2s;
     }
 
-    .subtitle {
-      color: #c9d7ff;
-      font-size: 1rem;
-      margin-top: 8px;
-    }
-
-    .mode-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin: 24px 0;
-    }
-
-    .mode-btn,
-    button {
-      border: none;
-      border-radius: 18px;
-      padding: 14px 16px;
-      background: rgba(255, 255, 255, 0.14);
-      color: white;
-      cursor: pointer;
-      font-weight: 700;
-      transition: 0.2s;
-    }
-
-    .mode-btn:hover,
-    button:hover {
-      transform: translateY(-2px);
-      background: rgba(255, 255, 255, 0.22);
-    }
+    .mode-btn:hover, button:hover { transform: translateY(-2px); background: rgba(255,255,255,0.22); }
 
     .mode-btn.active {
       background: linear-gradient(135deg, #00e5ff, #7c3cff);
-      box-shadow: 0 0 24px rgba(0, 229, 255, 0.35);
+      box-shadow: 0 0 24px rgba(0,229,255,0.35);
     }
 
     .question-card {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 26px;
-      padding: 28px;
-      text-align: center;
-      margin-top: 20px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 26px; padding: 28px; text-align: center; margin-top: 20px;
     }
 
     .question-label {
-      color: #9fb5ff;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 0.78rem;
-      font-weight: 800;
-      margin-bottom: 12px;
+      color: #9fb5ff; text-transform: uppercase; letter-spacing: 2px;
+      font-size: 0.78rem; font-weight: 800; margin-bottom: 12px;
     }
 
     .question {
-      font-size: clamp(2.2rem, 8vw, 5.4rem);
-      font-weight: 900;
-      letter-spacing: 4px;
-      margin-bottom: 18px;
-      text-shadow: 0 0 22px rgba(0, 229, 255, 0.24);
-      word-break: break-word;
+      font-size: clamp(2.2rem, 8vw, 5.4rem); font-weight: 900;
+      letter-spacing: 4px; margin-bottom: 18px;
+      text-shadow: 0 0 22px rgba(0,229,255,0.24); word-break: break-word;
     }
 
-    .answer-row {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin-top: 20px;
-    }
+    .answer-row { display: flex; gap: 12px; justify-content: center; margin-top: 20px; }
 
     input {
-      width: min(360px, 100%);
-      padding: 18px 20px;
-      font-size: 1.5rem;
-      text-align: center;
-      border-radius: 18px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.94);
-      outline: none;
-      font-weight: 800;
-      color: #10172f;
+      width: min(360px, 100%); padding: 18px 20px; font-size: 1.5rem;
+      text-align: center; border-radius: 18px;
+      border: 2px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.94); outline: none;
+      font-weight: 800; color: #10172f;
     }
 
-    .submit-btn {
-      background: linear-gradient(135deg, #24ff9b, #00c2ff);
-      color: #06101f;
-      font-size: 1rem;
-      min-width: 120px;
-    }
+    input:focus { border-color: #00e5ff; }
 
-    .hint-btn {
-      margin-top: 14px;
-      background: rgba(255, 225, 100, 0.18);
-      color: #fff3b0;
-    }
+    .submit-btn { background: linear-gradient(135deg, #24ff9b, #00c2ff); color: #06101f; font-size: 1rem; min-width: 120px; }
 
-    .feedback {
-      min-height: 35px;
-      font-size: 1.2rem;
-      font-weight: 800;
-      margin-top: 18px;
-    }
+    .hint-btn { margin-top: 14px; background: rgba(255,225,100,0.18); color: #fff3b0; }
 
+    .feedback { min-height: 35px; font-size: 1.1rem; font-weight: 800; margin-top: 18px; line-height: 1.4; }
     .feedback.correct { color: #63ffb0; }
     .feedback.wrong { color: #ff8181; }
+    .feedback.hint { color: #fff3b0; }
 
-    .place-values {
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      gap: 7px;
-      margin-top: 20px;
-    }
+    .place-values { display: grid; grid-template-columns: repeat(8, 1fr); gap: 7px; margin-top: 20px; }
 
     .pv-box {
-      border-radius: 14px;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-    }
-
-    .pv-top {
-      background: rgba(255, 255, 255, 0.18);
-      padding: 8px 4px;
-      font-size: 0.85rem;
-      font-weight: 900;
-    }
-
-    .pv-bottom {
-      padding: 10px 4px;
-      font-size: 1.2rem;
-      font-weight: 900;
-    }
-
-    .side-card h2 {
-      font-size: 1.6rem;
-      margin-bottom: 16px;
-    }
-
-    .stat-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .stat {
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 18px;
-      padding: 16px;
+      border-radius: 14px; overflow: hidden;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
       text-align: center;
     }
 
-    .stat span {
-      display: block;
-      color: #aebfff;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 5px;
-      font-weight: 800;
-    }
+    .pv-top { background: rgba(255,255,255,0.18); padding: 8px 4px; font-size: 0.8rem; font-weight: 900; }
+    .pv-bottom { padding: 10px 4px; font-size: 1.2rem; font-weight: 900; }
+    .pv-box.highlight { border-color: #00e5ff; box-shadow: 0 0 12px rgba(0,229,255,0.4); }
+    .pv-box.one .pv-bottom { color: #63ffb0; }
 
-    .stat strong {
-      font-size: 1.9rem;
-    }
+    .timer-wrap { margin-bottom: 6px; }
+    .timer-track { height: 10px; background: rgba(255,255,255,0.1); border-radius: 999px; overflow: hidden; }
+    .timer-fill { height: 100%; width: 100%; border-radius: 999px; transition: width 0.25s linear, background 0.4s; background: #24ff9b; }
+    .timer-fill.warn { background: #ffcc00; }
+    .timer-fill.danger { background: #ff5555; }
+    .timer-label { display: flex; justify-content: space-between; color: #cbd8ff; font-size: 0.82rem; font-weight: 700; margin-bottom: 5px; }
 
-    .progress-wrap {
-      margin: 22px 0;
-    }
+    .side-card h2 { font-size: 1.6rem; margin-bottom: 16px; }
 
-    .progress-label {
-      display: flex;
-      justify-content: space-between;
-      color: #cbd8ff;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
 
-    .progress-bar {
-      height: 18px;
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 999px;
-      overflow: hidden;
-    }
+    .stat { background: rgba(0,0,0,0.25); border-radius: 18px; padding: 16px; text-align: center; }
+    .stat span { display: block; color: #aebfff; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; font-weight: 800; }
+    .stat strong { font-size: 1.9rem; }
 
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #24ff9b, #00e5ff, #7c3cff);
-      transition: 0.35s;
-    }
+    .progress-wrap { margin: 22px 0; }
+    .progress-label { display: flex; justify-content: space-between; color: #cbd8ff; margin-bottom: 8px; font-size: 0.9rem; font-weight: 700; }
+    .progress-bar { height: 18px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #24ff9b, #00e5ff, #7c3cff); transition: 0.35s; }
 
-    .rules {
-      color: #d8e1ff;
-      line-height: 1.6;
-      font-size: 0.95rem;
-      background: rgba(0, 0, 0, 0.18);
-      border-radius: 18px;
-      padding: 16px;
-      margin-top: 16px;
-    }
+    .rules { color: #d8e1ff; line-height: 1.6; font-size: 0.95rem; background: rgba(0,0,0,0.18); border-radius: 18px; padding: 16px; margin-top: 16px; }
 
-    .reset-btn {
-      width: 100%;
-      margin-top: 14px;
-      background: rgba(255, 112, 112, 0.18);
-      color: #ffd0d0;
-    }
+    .reset-btn { width: 100%; margin-top: 14px; background: rgba(255,112,112,0.18); color: #ffd0d0; }
 
     .game-over {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(3, 6, 18, 0.82);
-      place-items: center;
-      padding: 20px;
-      z-index: 10;
+      display: none; position: fixed; inset: 0;
+      background: rgba(3,6,18,0.82); place-items: center; padding: 20px; z-index: 10;
     }
 
     .game-over-card {
       width: min(520px, 100%);
       background: linear-gradient(145deg, #182654, #090e22);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 30px;
-      padding: 34px;
-      text-align: center;
-      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 30px; padding: 34px; text-align: center;
+      box-shadow: 0 30px 90px rgba(0,0,0,0.55);
     }
 
-    .game-over-card h2 {
-      font-size: 2.5rem;
-      margin-bottom: 12px;
-    }
+    .game-over-card h2 { font-size: 2.5rem; margin-bottom: 12px; }
+    .game-over-card p { color: #c9d7ff; font-size: 1.1rem; margin-bottom: 8px; }
+    .game-over-card .submit-btn { margin-top: 20px; padding: 16px 40px; font-size: 1.1rem; }
 
     @media (max-width: 900px) {
-      .game-shell {
-        grid-template-columns: 1fr;
-      }
-
-      .mode-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .answer-row {
-        flex-direction: column;
-      }
-
-      .submit-btn {
-        width: 100%;
-      }
+      .game-shell { grid-template-columns: 1fr; }
+      .mode-grid { grid-template-columns: 1fr; }
+      .answer-row { flex-direction: column; }
+      .submit-btn { width: 100%; }
     }
   </style>
 </head>
 <body>
-  <div class="game-shell">
-    <main class="main-card">
-      <div class="title-row">
-        <div class="robot">🤖</div>
-        <div>
-          <h1>Byte Blaster</h1>
-          <p class="subtitle">Convert binary and denary to power up the robot!</p>
-        </div>
+
+<div class="game-shell">
+  <main class="main-card">
+    <div class="title-row">
+      <div class="robot">🤖</div>
+      <div>
+        <h1>Byte Blaster</h1>
+        <p class="subtitle">Convert binary and denary to power up the robot!</p>
       </div>
-
-      <div class="mode-grid">
-        <button class="mode-btn active" data-mode="binaryToDenary">Binary → Denary</button>
-        <button class="mode-btn" data-mode="denaryToBinary">Denary → Binary</button>
-        <button class="mode-btn" data-mode="mixed">Mixed Challenge</button>
-      </div>
-
-      <section class="question-card">
-        <p class="question-label" id="questionLabel">Convert this 8-bit binary number into denary</p>
-        <div class="question" id="questionText">00000000</div>
-
-        <div class="answer-row">
-          <input id="answerInput" type="text" autocomplete="off" placeholder="Type answer" />
-          <button class="submit-btn" id="submitBtn">Submit</button>
-        </div>
-
-        <button class="hint-btn" id="hintBtn">Show hint</button>
-        <div class="feedback" id="feedback"></div>
-
-        <div class="place-values" id="placeValues"></div>
-      </section>
-    </main>
-
-    <aside class="side-card">
-      <h2>Mission Stats</h2>
-
-      <div class="stat-grid">
-        <div class="stat"><span>Score</span><strong id="score">0</strong></div>
-        <div class="stat"><span>High Score</span><strong id="highScore">0</strong></div>
-        <div class="stat"><span>Lives</span><strong id="lives">3</strong></div>
-        <div class="stat"><span>Streak</span><strong id="streak">0</strong></div>
-      </div>
-
-      <div class="progress-wrap">
-        <div class="progress-label">
-          <span>Robot Energy</span>
-          <span id="energyLabel">0%</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill"></div>
-        </div>
-      </div>
-
-      <div class="rules">
-        <strong>How to play:</strong><br />
-        Answer questions correctly to gain points and energy. Three wrong answers ends the round. Use the hint if you need help, but try without it first.
-      </div>
-
-      <button class="reset-btn" id="newGameBtn">New Game</button>
-    </aside>
-  </div>
-
-  <div class="game-over" id="gameOver">
-    <div class="game-over-card">
-      <h2>Game Over</h2>
-      <p id="finalMessage">You scored 0 points.</p>
-      <br />
-      <button class="submit-btn" id="playAgainBtn">Play Again</button>
     </div>
+
+    <div class="mode-grid">
+      <button class="mode-btn active" data-mode="binaryToDenary">Binary → Denary</button>
+      <button class="mode-btn" data-mode="denaryToBinary">Denary → Binary</button>
+      <button class="mode-btn" data-mode="mixed">Mixed Challenge</button>
+    </div>
+
+    <section class="question-card">
+      <p class="question-label" id="questionLabel">Convert this 8-bit binary number into denary</p>
+      <div class="question" id="questionText">00000000</div>
+
+      <div class="answer-row">
+        <input id="answerInput" type="text" autocomplete="off" placeholder="Type your answer here" />
+        <button class="submit-btn" id="submitBtn">Submit</button>
+      </div>
+
+      <button class="hint-btn" id="hintBtn">💡 Show hint</button>
+      <div class="feedback" id="feedback"></div>
+      <div class="place-values" id="placeValues"></div>
+    </section>
+  </main>
+
+  <aside class="side-card">
+    <h2>Mission Stats</h2>
+
+    <div class="stat-grid">
+      <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+      <div class="stat"><span>High Score</span><strong id="highScore">0</strong></div>
+      <div class="stat"><span>Lives</span><strong id="lives">❤️❤️❤️</strong></div>
+      <div class="stat"><span>Streak</span><strong id="streak">0</strong></div>
+    </div>
+
+    <div class="timer-wrap">
+      <div class="timer-label"><span>Time remaining</span><span id="timerLabel">15s</span></div>
+      <div class="timer-track"><div class="timer-fill" id="timerFill"></div></div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Robot Energy</span>
+        <span id="energyLabel">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <div class="rules">
+      <strong>How to play:</strong><br />
+      Answer questions correctly to gain points and energy. You have <strong>30 seconds</strong> per question — run out of time and you lose a life! Use the hint if you need help, but try without it first.
+    </div>
+
+    <button class="reset-btn" id="newGameBtn">🔄 New Game</button>
+  </aside>
+</div>
+
+<div class="game-over" id="gameOver">
+  <div class="game-over-card">
+    <h2 id="gameOverTitle">Game Over</h2>
+    <p id="finalScore"></p>
+    <p id="finalMessage"></p>
+    <button class="submit-btn" id="playAgainBtn">Play Again</button>
   </div>
+</div>
 
-  <script>
-    const placeValues = [128, 64, 32, 16, 8, 4, 2, 1];
+<script>
+  const PLACE_VALUES = [128, 64, 32, 16, 8, 4, 2, 1];
+  const TIME_LIMIT = 30;
 
-    let mode = "binaryToDenary";
-    let currentNumber = 0;
-    let currentBinary = "00000000";
-    let score = 0;
-    let lives = 3;
-    let streak = 0;
-    let questionsAnswered = 0;
-    let highScore = Number(localStorage.getItem("byteBlasterHighScore")) || 0;
+  let mode = 'binaryToDenary';
+  let currentMode = 'binaryToDenary';
+  let currentNumber = 0;
+  let currentBinary = '00000000';
+  let score = 0;
+  let livesCount = 3;
+  let streak = 0;
+  let robotEnergy = 0;
+  let highScore = Number(localStorage.getItem('byteBlasterHighScore')) || 0;
+  let hintUsed = false;
+  let answered = false;
+  let timerInterval = null;
+  let timeLeft = TIME_LIMIT;
 
-    const questionLabel = document.getElementById("questionLabel");
-    const questionText = document.getElementById("questionText");
-    const answerInput = document.getElementById("answerInput");
-    const submitBtn = document.getElementById("submitBtn");
-    const hintBtn = document.getElementById("hintBtn");
-    const feedback = document.getElementById("feedback");
-    const placeValuesArea = document.getElementById("placeValues");
-    const scoreEl = document.getElementById("score");
-    const highScoreEl = document.getElementById("highScore");
-    const livesEl = document.getElementById("lives");
-    const streakEl = document.getElementById("streak");
-    const progressFill = document.getElementById("progressFill");
-    const energyLabel = document.getElementById("energyLabel");
-    const gameOver = document.getElementById("gameOver");
-    const finalMessage = document.getElementById("finalMessage");
-    const playAgainBtn = document.getElementById("playAgainBtn");
-    const newGameBtn = document.getElementById("newGameBtn");
+  const questionLabel = document.getElementById('questionLabel');
+  const questionText = document.getElementById('questionText');
+  const answerInput = document.getElementById('answerInput');
+  const submitBtn = document.getElementById('submitBtn');
+  const hintBtn = document.getElementById('hintBtn');
+  const feedbackEl = document.getElementById('feedback');
+  const placeValuesArea = document.getElementById('placeValues');
+  const scoreEl = document.getElementById('score');
+  const highScoreEl = document.getElementById('highScore');
+  const livesEl = document.getElementById('lives');
+  const streakEl = document.getElementById('streak');
+  const progressFill = document.getElementById('progressFill');
+  const energyLabel = document.getElementById('energyLabel');
+  const timerFill = document.getElementById('timerFill');
+  const timerLabel = document.getElementById('timerLabel');
+  const gameOverEl = document.getElementById('gameOver');
+  const gameOverTitle = document.getElementById('gameOverTitle');
+  const finalScore = document.getElementById('finalScore');
+  const finalMessage = document.getElementById('finalMessage');
+  const playAgainBtn = document.getElementById('playAgainBtn');
+  const newGameBtn = document.getElementById('newGameBtn');
 
-    highScoreEl.textContent = highScore;
+  highScoreEl.textContent = highScore;
 
-    function to8BitBinary(number) {
-      return number.toString(2).padStart(8, "0");
+  function to8BitBinary(n) {
+    return n.toString(2).padStart(8, '0');
+  }
+
+  function updateLivesDisplay() {
+    let display = '';
+    for (let i = 0; i < 3; i++) {
+      display += i < livesCount ? '❤️' : '🖤';
     }
+    livesEl.textContent = display;
+  }
 
-    function newQuestion() {
-      currentNumber = Math.floor(Math.random() * 256);
-      currentBinary = to8BitBinary(currentNumber);
-
-      let questionMode = mode;
-      if (mode === "mixed") {
-        questionMode = Math.random() < 0.5 ? "binaryToDenary" : "denaryToBinary";
+  function startTimer() {
+    clearInterval(timerInterval);
+    timeLeft = TIME_LIMIT;
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      updateTimerDisplay();
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        onTimeUp();
       }
+    }, 1000);
+  }
 
-      questionText.dataset.currentMode = questionMode;
+  function stopTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
 
-      if (questionMode === "binaryToDenary") {
-        questionLabel.textContent = "Convert this 8-bit binary number into denary";
-        questionText.textContent = currentBinary;
-        answerInput.placeholder = "Example: 178";
-      } else {
-        questionLabel.textContent = "Convert this denary number into 8-bit binary";
-        questionText.textContent = currentNumber;
-        answerInput.placeholder = "Example: 10110010";
-      }
+  function updateTimerDisplay() {
+    const pct = (timeLeft / TIME_LIMIT) * 100;
+    timerFill.style.width = pct + '%';
+    timerLabel.textContent = timeLeft + 's';
+    timerFill.className = 'timer-fill';
+    if (timeLeft <= 5) timerFill.classList.add('danger');
+    else if (timeLeft <= 9) timerFill.classList.add('warn');
+  }
 
-      answerInput.value = "";
-      feedback.textContent = "";
-      feedback.className = "feedback";
-      renderPlaceValues(false);
-      answerInput.focus();
+  function onTimeUp() {
+    if (answered) return;
+    answered = true;
+    streak = 0;
+    livesCount--;
+    feedbackEl.className = 'feedback wrong';
+    const ans = currentMode === 'binaryToDenary' ? currentNumber : currentBinary;
+    feedbackEl.textContent = `⏰ Time's up! The answer was ${ans}.`;
+    renderPlaceValues(currentBinary);
+    updateStats();
+    if (livesCount <= 0) {
+      setTimeout(endGame, 1400);
+    } else {
+      setTimeout(newQuestion, 1800);
+    }
+  }
+
+  function renderPlaceValues(binary) {
+    placeValuesArea.innerHTML = '';
+    binary.split('').forEach((bit, i) => {
+      const box = document.createElement('div');
+      box.className = 'pv-box' + (bit === '1' ? ' one' : '');
+      box.innerHTML = `<div class="pv-top">${PLACE_VALUES[i]}</div><div class="pv-bottom">${bit}</div>`;
+      placeValuesArea.appendChild(box);
+    });
+  }
+
+  function newQuestion() {
+    answered = false;
+    hintUsed = false;
+    feedbackEl.textContent = '';
+    feedbackEl.className = 'feedback';
+    placeValuesArea.innerHTML = '';
+    answerInput.value = '';
+    answerInput.focus();
+
+    currentNumber = Math.floor(Math.random() * 255) + 1;
+    currentBinary = to8BitBinary(currentNumber);
+
+    currentMode = mode === 'mixed'
+      ? (Math.random() < 0.5 ? 'binaryToDenary' : 'denaryToBinary')
+      : mode;
+
+    if (currentMode === 'binaryToDenary') {
+      questionLabel.textContent = 'Convert this 8-bit binary number into denary';
+      questionText.textContent = currentBinary;
+      answerInput.placeholder = 'e.g. 178';
+      answerInput.setAttribute('inputmode', 'numeric');
+    } else {
+      questionLabel.textContent = 'Convert this denary number into 8-bit binary';
+      questionText.textContent = currentNumber;
+      answerInput.placeholder = 'e.g. 10110010';
+      answerInput.setAttribute('inputmode', 'text');
     }
 
-    function renderPlaceValues(showBits) {
-      placeValuesArea.innerHTML = "";
-      const bits = currentBinary.split("");
+    startTimer();
+  }
 
-      placeValues.forEach((value, index) => {
-        const box = document.createElement("div");
-        box.className = "pv-box";
-        box.innerHTML = `
-          <div class="pv-top">${value}</div>
-          <div class="pv-bottom">${showBits ? bits[index] : "?"}</div>
-        `;
-        placeValuesArea.appendChild(box);
-      });
+  function submitAnswer() {
+    if (answered) return;
+    const raw = answerInput.value.trim();
+    if (!raw) return;
+
+    let correct = false;
+    if (currentMode === 'binaryToDenary') {
+      correct = parseInt(raw, 10) === currentNumber;
+    } else {
+      const cleaned = raw.replace(/\s/g, '').padStart(8, '0');
+      correct = cleaned === currentBinary
+        || raw.replace(/\s/g, '') === currentBinary.replace(/^0+/, '')
+        || parseInt(raw.replace(/\s/g, ''), 2) === currentNumber;
     }
 
-    function getCorrectAnswer() {
-      const currentMode = questionText.dataset.currentMode;
-      if (currentMode === "binaryToDenary") {
-        return String(currentNumber);
-      }
-      return currentBinary;
-    }
+    if (correct) {
+      answered = true;
+      stopTimer();
+      const speedBonus = Math.max(0, timeLeft - 5);
+      const basePoints = hintUsed ? 5 : 10;
+      const total = basePoints + streak + speedBonus;
+      score += total;
+      streak++;
+      robotEnergy = Math.min(100, robotEnergy + 10);
 
-    function normaliseAnswer(answer) {
-      return answer.trim().replace(/\s/g, "");
-    }
+      feedbackEl.className = 'feedback correct';
+      let msg = `✅ Correct! +${total} pts`;
+      if (speedBonus > 0) msg += ` (includes +${speedBonus} speed bonus!)`;
+      if (hintUsed) msg += ' (hint used)';
+      feedbackEl.textContent = msg;
 
-    function submitAnswer() {
-      const pupilAnswer = normaliseAnswer(answerInput.value);
-      const correctAnswer = getCorrectAnswer();
-
-      if (pupilAnswer === "") {
-        feedback.textContent = "Type an answer first.";
-        feedback.className = "feedback wrong";
-        return;
-      }
-
-      questionsAnswered++;
-
-      if (pupilAnswer === correctAnswer) {
-        streak++;
-        const points = 10 + Math.min(streak * 2, 20);
-        score += points;
-        feedback.textContent = `Correct! +${points} points`;
-        feedback.className = "feedback correct";
-        updateStats();
-        setTimeout(newQuestion, 850);
-      } else {
-        lives--;
-        streak = 0;
-        feedback.textContent = `Not quite. The correct answer was ${correctAnswer}.`;
-        feedback.className = "feedback wrong";
-        renderPlaceValues(true);
-        updateStats();
-
-        if (lives <= 0) {
-          setTimeout(endGame, 1000);
-        } else {
-          setTimeout(newQuestion, 1600);
-        }
-      }
-    }
-
-    function showHint() {
-      renderPlaceValues(true);
-      const currentMode = questionText.dataset.currentMode;
-
-      if (currentMode === "binaryToDenary") {
-        const bits = currentBinary.split("");
-        const usedValues = placeValues.filter((value, index) => bits[index] === "1");
-        feedback.textContent = usedValues.length
-          ? `Add the columns with 1s: ${usedValues.join(" + ")}`
-          : "All bits are 0, so the answer is 0.";
-      } else {
-        feedback.textContent = "Use the place values. Put 1 if you need that value, and 0 if you do not.";
-      }
-      feedback.className = "feedback";
-    }
-
-    function updateStats() {
-      scoreEl.textContent = score;
-      livesEl.textContent = lives;
-      streakEl.textContent = streak;
-
-      if (score > highScore) {
-        highScore = score;
-        localStorage.setItem("byteBlasterHighScore", highScore);
-      }
-      highScoreEl.textContent = highScore;
-
-      const energy = Math.min(100, questionsAnswered * 10);
-      progressFill.style.width = `${energy}%`;
-      energyLabel.textContent = `${energy}%`;
-    }
-
-    function endGame() {
-      finalMessage.textContent = `You scored ${score} points. High score: ${highScore}.`;
-      gameOver.style.display = "grid";
-    }
-
-    function startNewGame() {
-      score = 0;
-      lives = 3;
-      streak = 0;
-      questionsAnswered = 0;
-      gameOver.style.display = "none";
+      renderPlaceValues(currentBinary);
       updateStats();
-      newQuestion();
-    }
-
-    document.querySelectorAll(".mode-btn").forEach(button => {
-      button.addEventListener("click", () => {
-        document.querySelectorAll(".mode-btn").forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-        mode = button.dataset.mode;
-        startNewGame();
-      });
-    });
-
-    submitBtn.addEventListener("click", submitAnswer);
-    hintBtn.addEventListener("click", showHint);
-    playAgainBtn.addEventListener("click", startNewGame);
-    newGameBtn.addEventListener("click", startNewGame);
-
-    answerInput.addEventListener("keydown", event => {
-      if (event.key === "Enter") {
-        submitAnswer();
+      setTimeout(newQuestion, 1200);
+    } else {
+      stopTimer();
+      livesCount--;
+      streak = 0;
+      feedbackEl.className = 'feedback wrong';
+      const ans = currentMode === 'binaryToDenary' ? currentNumber : currentBinary;
+      feedbackEl.textContent = `❌ Not quite! The answer was ${ans}.`;
+      renderPlaceValues(currentBinary);
+      updateStats();
+      if (livesCount <= 0) {
+        setTimeout(endGame, 1200);
+      } else {
+        setTimeout(newQuestion, 1800);
       }
-    });
+    }
+  }
 
-    startNewGame();
-  </script>
+  function showHint() {
+    hintUsed = true;
+    feedbackEl.className = 'feedback hint';
+    if (currentMode === 'binaryToDenary') {
+      renderPlaceValuesHint(currentBinary);
+      feedbackEl.textContent = '💡 Each column has a value. Add up the ones under a 1 — you do the maths!';
+    } else {
+      renderPlaceValuesBlank();
+      feedbackEl.textContent = '💡 Does 128 fit into your number? If yes write 1, if no write 0. Then try 64, 32...';
+    }
+  }
+
+  function renderPlaceValuesHint(binary) {
+    placeValuesArea.innerHTML = '';
+    binary.split('').forEach((bit, i) => {
+      const box = document.createElement('div');
+      box.className = 'pv-box' + (bit === '1' ? ' one' : '');
+      box.innerHTML = `<div class="pv-top">${PLACE_VALUES[i]}</div><div class="pv-bottom">${bit}</div>`;
+      placeValuesArea.appendChild(box);
+    });
+  }
+
+  function renderPlaceValuesBlank() {
+    placeValuesArea.innerHTML = '';
+    PLACE_VALUES.forEach(pv => {
+      const box = document.createElement('div');
+      box.className = 'pv-box';
+      box.innerHTML = `<div class="pv-top">${pv}</div><div class="pv-bottom">?</div>`;
+      placeValuesArea.appendChild(box);
+    });
+  }
+
+  function updateStats() {
+    scoreEl.textContent = score;
+    streakEl.textContent = streak;
+    updateLivesDisplay();
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem('byteBlasterHighScore', highScore);
+    }
+    highScoreEl.textContent = highScore;
+    progressFill.style.width = `${robotEnergy}%`;
+    energyLabel.textContent = `${Math.round(robotEnergy)}%`;
+  }
+
+  function endGame() {
+    stopTimer();
+    gameOverTitle.textContent = score >= 50 ? '🎉 Nice work!' : '💀 Game Over';
+    finalScore.textContent = `You scored ${score} points.`;
+    if (score >= 80) finalMessage.textContent = "Outstanding! You're a binary master!";
+    else if (score >= 40) finalMessage.textContent = 'Great effort! Keep practising!';
+    else finalMessage.textContent = 'Keep going — it gets easier with practice!';
+    gameOverEl.style.display = 'grid';
+  }
+
+  function startNewGame() {
+    stopTimer();
+    score = 0;
+    livesCount = 3;
+    streak = 0;
+    robotEnergy = 0;
+    answered = false;
+    gameOverEl.style.display = 'none';
+    updateStats();
+    newQuestion();
+  }
+
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      mode = btn.dataset.mode;
+      startNewGame();
+    });
+  });
+
+  submitBtn.addEventListener('click', submitAnswer);
+  hintBtn.addEventListener('click', showHint);
+  playAgainBtn.addEventListener('click', startNewGame);
+  newGameBtn.addEventListener('click', startNewGame);
+  answerInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitAnswer(); });
+
+  startNewGame();
+</script>
 </body>
 </html>
